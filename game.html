@@ -13,12 +13,23 @@
       box-sizing: border-box;
     }
 
+    /* 改變button預設值 */
+    input[type="button" i] {
+      border-width: 1px;
+      border-color: white;
+    }
+
     /* 設定背景 */
     body {
       width: 100vw;
       height: 100vh;
       background: url('./images/background.jpeg') no-repeat center center/contain;
       backdrop-filter: blur(5px);
+    }
+
+    /* 設定h3外距 */
+    h3 {
+      margin-top: 5px;
     }
 
     /* 設定活動區 */
@@ -33,7 +44,7 @@
     }
 
     /* 設定遊戲區 */
-    .game {
+    #game {
       width: 1280px;
       height: 768px;
       background: url('./images/prontera_southwest_field.png') no-repeat center center/cover;
@@ -88,8 +99,7 @@
         drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 3px white) drop-shadow(0 0 4px white);
     }
 
-    #info .roleselector:active,
-    #sticklists img:focus {
+    #info .roleselector:active {
       background: rgb(236, 236, 243);
       box-shadow:
         0 0 0 rgba(0, 0, 0, .4),
@@ -122,8 +132,48 @@
     }
 
     #sticklists img:hover {
+      cursor: pointer;
       filter:
         drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 3px white) drop-shadow(0 0 4px white);
+    }
+
+    #sticklists img:focus {
+      background: rgb(236, 236, 243);
+      box-shadow:
+        0 0 0 rgba(0, 0, 0, .4),
+        0 0 0 rgba(236, 236, 243, .9),
+        inset -1px -1px 4px rgba(236, 236, 243, .9),
+        inset 1px 1px 2px rgba(0, 0, 0, .4);
+    }
+
+    #btn-start {
+      width: 220px;
+      height: 50px;
+      background: white;
+      margin: 10px 0 5px 0;
+      font-size: 1.5rem;
+      line-height: 30px;
+      border-radius: 5px;
+      box-shadow:
+        1px 1px 2px rgba(0, 0, 0, .3),
+        -1px -1px 4px rgba(236, 236, 243, .9),
+        inset 0 0 0 rgba(236, 236, 243, .9),
+        inset 0 0 0 rgba(0, 0, 0, .4);
+    }
+
+    #btn-start:hover {
+      cursor: pointer;
+      filter:
+        drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 3px white) drop-shadow(0 0 4px white);
+    }
+
+    #btn-start:active {
+      background: rgb(236, 236, 243);
+      box-shadow:
+        0 0 0 rgba(0, 0, 0, .4),
+        0 0 0 rgba(236, 236, 243, .9),
+        inset -1px -1px 4px rgba(236, 236, 243, .9),
+        inset 1px 1px 2px rgba(0, 0, 0, .4);
     }
 
     audio {
@@ -135,8 +185,8 @@
 
 <body>
   <div class="container">
-    <div class="game">
-      <div id="game"></div>
+    <div id="game">
+      <!-- <div id="game"></div> -->
     </div>
     <div id="info">
       <h3>選擇你的角色</h3>
@@ -156,10 +206,10 @@
       <hr>
       <h3>選擇你的武器</h3>
       <div id="sticklists">
-        <img src="./images/stick01.png" alt="手杖" title="手杖" tabindex="1">
-        <img src="./images/stick02.png" alt="慈悲法杖" title="慈悲法杖" tabindex="1">
-        <img src="./images/stick03.png" alt="骷髏魔杖" title="骷髏魔杖" tabindex="1">
-        <img src="./images/stick04.png" alt="魔力狐尾草手杖" title="魔力狐尾草" tabindex="1">
+        <img class="stick01" src="./images/stick01.png" alt="手杖" title="手杖" tabindex="1">
+        <img class="stick02" src="./images/stick02.png" alt="慈悲法杖" title="慈悲法杖" tabindex="1">
+        <img class="stick03" src="./images/stick03.png" alt="骷髏魔杖" title="骷髏魔杖" tabindex="1">
+        <img class="stick04" src="./images/stick04.png" alt="魔力狐尾草手杖" title="魔力狐尾草" tabindex="1">
       </div>
       <hr>
       <input id="btn-start" type="button" value="遊戲開始">
@@ -175,7 +225,20 @@
     integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=='
     crossorigin='anonymous'></script>
   <script>
-    $('#music').prop("volume", 0.1);
+    $('#music').prop('volume', 0.1);
+
+    $('.stick01').click(function () {
+      $('#game').css({ "cursor": "url('./images/stick01.png') 0 0, auto" });
+    })
+    $('.stick02').click(function () {
+      $('#game').css({ "cursor": "url('./images/stick02.png') 0 0, auto" });
+    })
+    $('.stick03').click(function () {
+      $('#game').css({ "cursor": "url('./images/stick03.png') 0 0, auto" });
+    })
+    $('.stick04').click(function () {
+      $('#game').css({ "cursor": "url('./images/stick04.png') 0 0, auto" });
+    })
   </script>
 
 </body>
