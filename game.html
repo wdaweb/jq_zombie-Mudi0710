@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* 設定背景 */
+    body {
+      width: 100vw;
+      height: 100vh;
+      background: url('./images/background.jpeg') no-repeat center center/contain;
+      backdrop-filter: blur(5px);
+    }
+
+    /* 設定活動區 */
+    .container {
+      width: 1540px;
+      height: 768px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 10px 10px 10px rgba(0, 0, 0, .3);
+    }
+
+    /* 設定遊戲區 */
+    .game {
+      width: 1280px;
+      height: 768px;
+      background: url('./images/prontera_southwest_field.png') no-repeat center center/cover;
+      cursor: url('./images/stick01.png') 0 0, auto;
+      float: left;
+      /* 無法被選取 */
+      user-select: none;
+      /* 無法拖曳 */
+      -webkit-user-drag: none;
+    }
+
+    /* 設定資訊區 */
+    #info {
+      width: calc(1540px - 1280px);
+      height: 768px;
+      background: rgba(255, 255, 255, .5);
+      float: right;
+      text-align: center;
+    }
+
+    /* 設定角色選擇器 */
+    #info .rolelist>div {
+      display: none;
+    }
+
+    #info .rolelist input {
+      display: none;
+    }
+
+    #info .rolelist input:checked+div {
+      display: block;
+    }
+
+    #info .roleselector {
+      width: 100px;
+      height: 30px;
+      background: white;
+      display: inline-block;
+      margin: 5px 5px;
+      line-height: 30px;
+      border-radius: 5px;
+      box-shadow:
+        1px 1px 2px rgba(0, 0, 0, .4),
+        -1px -1px 4px rgba(236, 236, 243, .9),
+        inset 0 0 0 rgba(236, 236, 243, .9),
+        inset 0 0 0 rgba(0, 0, 0, .4);
+    }
+
+    #info .roleselector:hover {
+      cursor: pointer;
+      filter:
+        drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 3px white) drop-shadow(0 0 4px white);
+    }
+
+    #info .roleselector:active,
+    #sticklists img:focus {
+      background: rgb(236, 236, 243);
+      box-shadow:
+        0 0 0 rgba(0, 0, 0, .4),
+        0 0 0 rgba(236, 236, 243, .9),
+        inset -1px -1px 4px rgba(236, 236, 243, .9),
+        inset 1px 1px 2px rgba(0, 0, 0, .4);
+    }
+
+    /* 設定武器選擇器 */
+    #sticklists {
+      width: 200px;
+      height: 240px;
+      margin: auto;
+      display: flex;
+      justify-content: space-around;
+      align-content: space-evenly;
+      flex-wrap: wrap;
+    }
+
+    #sticklists img {
+      width: 75px;
+      height: 100px;
+      background: rgba(255, 255, 255, 1);
+      border-radius: 5px;
+      box-shadow:
+        1px 1px 2px rgba(0, 0, 0, .4),
+        -1px -1px 4px rgba(236, 236, 243, .9),
+        inset 0 0 0 rgba(236, 236, 243, .9),
+        inset 0 0 0 rgba(0, 0, 0, .4);
+    }
+
+    #sticklists img:hover {
+      filter:
+        drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 3px white) drop-shadow(0 0 4px white);
+    }
+
+    audio {
+      width: 1540px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="game">
+      <div id="game"></div>
+    </div>
+    <div id="info">
+      <h3>選擇你的角色</h3>
+      <label for="role01">
+        <div class="roleselector">男魔法師</div>
+      </label>
+      <label for="role02">
+        <div class="roleselector">女魔法師</div>
+      </label>
+      <div class="rolelist">
+        <input id="role01" type="radio" name="role" checked>
+        <div><img src="./images/magician01.png" alt="男魔法師" title="男魔法師"></div>
+        <input id="role02" type="radio" name="role">
+        <div><img src="./images/magician02.png" alt="女魔法師" title="女魔法師"></div>
+      </div>
+
+      <hr>
+      <h3>選擇你的武器</h3>
+      <div id="sticklists">
+        <img src="./images/stick01.png" alt="手杖" title="手杖" tabindex="1">
+        <img src="./images/stick02.png" alt="慈悲法杖" title="慈悲法杖" tabindex="1">
+        <img src="./images/stick03.png" alt="骷髏魔杖" title="骷髏魔杖" tabindex="1">
+        <img src="./images/stick04.png" alt="魔力狐尾草手杖" title="魔力狐尾草" tabindex="1">
+      </div>
+      <hr>
+      <input id="btn-start" type="button" value="遊戲開始">
+      <br>
+      <p>擊殺分數： <span id="text-score">0</span> 分</p>
+      <p>剩餘時間： <span id="text-time">0</span> 秒</p>
+      <br>
+    </div>
+    <audio id="music" src="./music/streamside.mp3" loop controls></audio>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'
+    integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=='
+    crossorigin='anonymous'></script>
+  <script>
+    $('#music').prop("volume", 0.1);
+  </script>
+
+</body>
+
+</html>
