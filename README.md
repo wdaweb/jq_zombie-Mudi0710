@@ -4,3 +4,15 @@
 ## 注意
 請盡量使用上課教的 GUI 工具或 git 指令繳交作業  
 若使用 GitHub 網頁進行 commit 會依次數扣分
+
+## 素材來源
+1. 圖片素材
+  背景圖：https://www.xoer.cc/4335260
+  遊戲區底圖：https://www.taptap.com/topic/4407993、https://m.9k9k.com/newgame/wy/11831.html
+  角色圖：https://forum.gamer.com.tw/Co.php?bsn=04212&sn=2625327
+  怪物圖：https://rd.fharr.com/
+  武器圖：https://rd.fharr.com/
+  技能特效：https://www.cgjoy.com/thread-153860-1-1.html、https://huaban.com/pins/2837187616
+
+2. 音樂素材
+  https://www.youtube.com/watch?v=_1oM5mAtstg
