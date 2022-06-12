@@ -6,7 +6,7 @@
 若使用 GitHub 網頁進行 commit 會依次數扣分
 
 ## 素材來源
-1. 圖片素材
+1. 圖片素材<br>
   背景圖：https://www.xoer.cc/4335260<br>
   遊戲區底圖：https://www.taptap.com/topic/4407993、https://m.9k9k.com/newgame/wy/11831.html<br>
   角色圖：https://forum.gamer.com.tw/Co.php?bsn=04212&sn=2625327<br>
