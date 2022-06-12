@@ -13,11 +13,6 @@
       box-sizing: border-box;
     }
 
-    /* 改變button預設值 */
-    input[type="button" i] {
-      border-width: 1px;
-      border-color: white;
-    }
 
     /* 設定背景 */
     body {
@@ -146,6 +141,13 @@
         inset 1px 1px 2px rgba(0, 0, 0, .4);
     }
 
+    /* 改變button預設值 */
+    input[type="button" i] {
+      border-width: 1px;
+      border-color: white;
+    }
+
+    /* 設定遊戲開始鈕 */
     #btn-start {
       width: 220px;
       height: 50px;
@@ -176,8 +178,17 @@
         inset 1px 1px 2px rgba(0, 0, 0, .4);
     }
 
+    /* 設定音樂播放器 */
     audio {
       width: 1540px;
+    }
+
+    .flash {
+      width: 100px;
+      height: 150px;
+      position: absolute;
+      opacity: 0;
+      transition: all linear;
     }
   </style>
 
@@ -186,7 +197,6 @@
 <body>
   <div class="container">
     <div id="game">
-      <!-- <div id="game"></div> -->
     </div>
     <div id="info">
       <h3>選擇你的角色</h3>
@@ -225,8 +235,15 @@
     integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=='
     crossorigin='anonymous'></script>
   <script>
-    $('#music').prop('volume', 0.1);
 
+
+
+
+
+
+
+
+    // 設定武器選擇器
     $('.stick01').click(function () {
       $('#game').css({ "cursor": "url('./images/stick01.png') 0 0, auto" });
     })
@@ -239,6 +256,21 @@
     $('.stick04').click(function () {
       $('#game').css({ "cursor": "url('./images/stick04.png') 0 0, auto" });
     })
+    
+    // 設定技能特效
+    $('<img class="flash" src="./images/flash_BGclear.gif">').appendTo('#game');
+    $('#game').mousedown(function (e) {
+      let x = e.pageX - 30;
+      let y = e.pageY - 120;
+      $('.flash').offset({ left: x, top: y })
+      $('.flash').css({ "opacity": "1" });
+      setTimeout(function () {
+        $('.flash').css('opacity', '0');
+      }, 500);
+    });
+    
+    // 設定音量預設大小
+    $('#music').prop('volume', 0.1);
   </script>
 
 </body>
