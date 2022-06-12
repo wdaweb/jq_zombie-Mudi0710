@@ -18,8 +18,7 @@
     body {
       width: 100vw;
       height: 100vh;
-      background: url('./images/background.jpeg') no-repeat center center/contain;
-      backdrop-filter: blur(5px);
+      background: url('./images/backgroundBlur.png') no-repeat center center/contain;
     }
 
     /* 設定h3外距 */
@@ -45,11 +44,30 @@
       background: url('./images/prontera_southwest_field.png') no-repeat center center/cover;
       cursor: url('./images/stick01.png') 0 0, auto;
       float: left;
-      /* 無法被選取 */
+      position: relative;
+      overflow: hidden;
+    }
+
+    #game img {
+      position: absolute;
       user-select: none;
-      /* 無法拖曳 */
       -webkit-user-drag: none;
     }
+
+    #game .poring {
+      width: 75px;
+      height: 75px;
+      z-index: 1;
+    }
+
+    .poringDIE,
+    .poringDIEpic {
+      width: 75px;
+      height: 75px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
 
     /* 設定資訊區 */
     #info {
@@ -184,8 +202,8 @@
     }
 
     .flash {
-      width: 100px;
-      height: 150px;
+      width: 180px;
+      height: 350px;
       position: absolute;
       opacity: 0;
       transition: all linear;
@@ -231,16 +249,75 @@
     <audio id="music" src="./music/streamside.mp3" loop controls></audio>
   </div>
 
+  <!-- jQuery -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'
     integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=='
     crossorigin='anonymous'></script>
+
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    let score = 0
+    let countdown = 60
+    let timer = 0
 
+    function move(poring) {
+      const top = Math.round(Math.random() * 90) + '%'
+      const left = Math.round(Math.random() * 90) + '%'
+      poring.stop().animate({ top, left }, 3500, function () {
+        move(poring)
+      })
+    }
 
+    $('#btn-start').click(function () {
+      $(this).attr('disabled', true)
+      score = 0
+      $('#text-score').text(score)
+      countdown = 60
+      $('#text-time').text(countdown)
 
+      timer = setInterval(function () {
+        countdown--
+        $('#text-time').text(countdown)
 
+        const random = Math.round(Math.random() * 9)
+        if (random > 3 && $('#game .poring').length < 7) {
+          const top = Math.round(Math.random() * 90) + '%'
+          const left = Math.round(Math.random() * 90) + '%'
+          const poring = $(`<img src="./images/poring.gif" class="poring" style="top: ${top}; left: ${left}">`)
+          $('#game').append(poring)
+          move(poring)
+        }
 
+        if (countdown <= 0) {
+          clearInterval(timer)
+          $('#game .poring').remove()
+          $('#game .poringDIE').remove()
+          $('#game .poringDIEpic').remove()
+          $('#btn-start').attr('disabled', false)
+          Swal.fire({
+            title: `你的擊殺分數為 ${score} 分！`,
+            imageUrl: './images/victory.png'
+          })
+        }
+      }, 1000)
+    })
 
+    $('#game').on('click', '.poring', function () {
+      let control = 0
+      $(this).attr('src', './images/poringDIEonce.gif')
+      $(this).removeClass('poring').addClass('poringDIE')
+      $('.poringDIE').stop()
+      control++
+      $('.poringDIE').addClass('poringDIEpic')
+      if (control >= score) {
+        poringtimer = setInterval(function () {
+          $('.poringDIEpic').attr('src', './images/poringDIEpic.png')
+        }, 1000)
+      }
+      score++
+      $('#text-score').text(score)
+    })
 
 
     // 設定武器選擇器
@@ -256,19 +333,19 @@
     $('.stick04').click(function () {
       $('#game').css({ "cursor": "url('./images/stick04.png') 0 0, auto" });
     })
-    
+
     // 設定技能特效
     $('<img class="flash" src="./images/flash_BGclear.gif">').appendTo('#game');
     $('#game').mousedown(function (e) {
-      let x = e.pageX - 30;
-      let y = e.pageY - 120;
+      let x = e.pageX - 60;
+      let y = e.pageY - 280;
       $('.flash').offset({ left: x, top: y })
       $('.flash').css({ "opacity": "1" });
       setTimeout(function () {
         $('.flash').css('opacity', '0');
       }, 500);
     });
-    
+
     // 設定音量預設大小
     $('#music').prop('volume', 0.1);
   </script>
