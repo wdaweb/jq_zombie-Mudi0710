@@ -54,10 +54,52 @@
       -webkit-user-drag: none;
     }
 
+    #game .kingporing {
+      width: 200px;
+      height: 200px;
+      z-index: 1;
+    }
+
+    #game .angelporing {
+      width: 130px;
+      height: 100px;
+      z-index: 1;
+    }
+
+    #game .devilporing {
+      width: 160px;
+      height: 80px;
+      z-index: 1;
+    }
+
     #game .poring {
       width: 75px;
       height: 75px;
       z-index: 1;
+    }
+
+    .kingporingDIE,
+    .kingporingDIEpic {
+      width: 200px;
+      height: 200px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .angelporingDIE,
+    .angelporingDIEpic {
+      width: 130px;
+      height: 100px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .devilporingDIE,
+    .devilporingDIEpic {
+      width: 160px;
+      height: 80px;
+      pointer-events: none;
+      z-index: 0;
     }
 
     .poringDIE,
@@ -67,6 +109,7 @@
       pointer-events: none;
       z-index: 0;
     }
+
 
 
     /* 設定資訊區 */
@@ -258,9 +301,31 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     let score = 0
-    let countdown = 60
+    let countdown = 30
     let timer = 0
+    let control = 0
 
+    function move(kingporing) {
+      const top = Math.round(Math.random() * 50) + '%'
+      const left = Math.round(Math.random() * 70) + '%'
+      kingporing.stop().animate({ top, left }, 3500, function () {
+        move(kingporing)
+      })
+    }
+    function move(angelporing) {
+      const top = Math.round(Math.random() * 90) + '%'
+      const left = Math.round(Math.random() * 90) + '%'
+      angelporing.stop().animate({ top, left }, 3500, function () {
+        move(angelporing)
+      })
+    }
+    function move(devilporing) {
+      const top = Math.round(Math.random() * 90) + '%'
+      const left = Math.round(Math.random() * 90) + '%'
+      devilporing.stop().animate({ top, left }, 3500, function () {
+        move(devilporing)
+      })
+    }
     function move(poring) {
       const top = Math.round(Math.random() * 90) + '%'
       const left = Math.round(Math.random() * 90) + '%'
@@ -273,7 +338,7 @@
       $(this).attr('disabled', true)
       score = 0
       $('#text-score').text(score)
-      countdown = 60
+      countdown = 30
       $('#text-time').text(countdown)
 
       timer = setInterval(function () {
@@ -281,7 +346,28 @@
         $('#text-time').text(countdown)
 
         const random = Math.round(Math.random() * 9)
-        if (random > 3 && $('#game .poring').length < 7) {
+        if (random > 7.5 && $('#game .kingporing').length < 3) {
+          const top = Math.round(Math.random() * 50) + '%'
+          const left = Math.round(Math.random() * 70) + '%'
+          const kingporing = $(`<img src="./images/king_poring.gif" class="kingporing" style="top: ${top}; left: ${left}">`)
+          $('#game').append(kingporing)
+          move(kingporing)
+        }
+        if (random > 6 && $('#game .angelporing').length < 5) {
+          const top = Math.round(Math.random() * 90) + '%'
+          const left = Math.round(Math.random() * 90) + '%'
+          const angelporing = $(`<img src="./images/angeling.gif" class="angelporing" style="top: ${top}; left: ${left}">`)
+          $('#game').append(angelporing)
+          move(angelporing)
+        }
+        if (random > 7 && $('#game .devilporing').length < 5) {
+          const top = Math.round(Math.random() * 90) + '%'
+          const left = Math.round(Math.random() * 90) + '%'
+          const devilporing = $(`<img src="./images/deviling.gif" class="devilporing" style="top: ${top}; left: ${left}">`)
+          $('#game').append(devilporing)
+          move(devilporing)
+        }
+        if (random > 2 && $('#game .poring').length < 7) {
           const top = Math.round(Math.random() * 90) + '%'
           const left = Math.round(Math.random() * 90) + '%'
           const poring = $(`<img src="./images/poring.gif" class="poring" style="top: ${top}; left: ${left}">`)
@@ -291,6 +377,15 @@
 
         if (countdown <= 0) {
           clearInterval(timer)
+          $('#game .kingporing').remove()
+          $('#game .kingporingDIE').remove()
+          $('#game .kingporingDIEpic').remove()
+          $('#game .angelporing').remove()
+          $('#game .angelporingDIE').remove()
+          $('#game .angelporingDIEpic').remove()
+          $('#game .devilporing').remove()
+          $('#game .devilporingDIE').remove()
+          $('#game .devilporingDIEpic').remove()
           $('#game .poring').remove()
           $('#game .poringDIE').remove()
           $('#game .poringDIEpic').remove()
@@ -303,8 +398,52 @@
       }, 1000)
     })
 
+    $('#game').on('click', '.kingporing', function () {
+      $(this).attr('src', './images/king_poringDIEonce.gif')
+      $(this).removeClass('kingporing').addClass('kingporingDIE')
+      $('.kingporingDIE').stop()
+      control++
+      $('.kingporingDIE').addClass('kingporingDIEpic')
+      if (control >= score) {
+        kingporingtimer = setInterval(function () {
+          $('.kingporingDIEpic').attr('src', './images/king_poringDIEpic.png')
+        }, 1000)
+      }
+      score++
+      $('#text-score').text(score)
+    })
+
+    $('#game').on('click', '.angelporing', function () {
+      $(this).attr('src', './images/angelingDIEonce.gif')
+      $(this).removeClass('angelporing').addClass('angelporingDIE')
+      $('.angelporingDIE').stop()
+      control++
+      $('.angelporingDIE').addClass('angelporingDIEpic')
+      if (control >= score) {
+        angelporingtimer = setInterval(function () {
+          $('.angelporingDIEpic').attr('src', './images/angelingDIEpic.png')
+        }, 1000)
+      }
+      score++
+      $('#text-score').text(score)
+    })
+
+    $('#game').on('click', '.devilporing', function () {
+      $(this).attr('src', './images/devilingDIEonce.gif')
+      $(this).removeClass('devilporing').addClass('devilporingDIE')
+      $('.devilporingDIE').stop()
+      control++
+      $('.devilporingDIE').addClass('devilporingDIEpic')
+      if (control >= score) {
+        devilporingtimer = setInterval(function () {
+          $('.devilporingDIEpic').attr('src', './images/devilingDIEpic.png')
+        }, 1000)
+      }
+      score++
+      $('#text-score').text(score)
+    })
+
     $('#game').on('click', '.poring', function () {
-      let control = 0
       $(this).attr('src', './images/poringDIEonce.gif')
       $(this).removeClass('poring').addClass('poringDIE')
       $('.poringDIE').stop()
@@ -318,6 +457,7 @@
       score++
       $('#text-score').text(score)
     })
+
 
 
     // 設定武器選擇器
